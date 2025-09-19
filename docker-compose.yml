@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    container_name: db_postgres
+    env_file:
+      - .env-non-dev
+    ports:
+      - 5432:5432
+  
+  itk_test:
+    image: itk_test_image
+    build: 
+      context: .
+    container_name: itk_test_app
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - db
+    command: ["./itk_test.sh"]
+    ports:
+      - 7000:8000
